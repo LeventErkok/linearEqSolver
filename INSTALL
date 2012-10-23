@@ -1,0 +1,10 @@
+The linearEqSolver library can be installed simply by issuing cabal install
+like this:
+
+     cabal install linearEqSolver
+
+The library uses the sbv package on hackage, which will automatically be
+installed if you do not have it already. You should also install
+Z3, the default SMT solver used by sbv, from Microsoft. (You can get it
+from http://research.microsoft.com/en-us/um/redmond/projects/z3/.)
+Please make sure that the "z3" executable is in your path.
