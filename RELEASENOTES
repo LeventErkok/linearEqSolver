@@ -4,6 +4,12 @@ GitHub:  <http://github.com/LeventErkok/linearEqSolver>
 Latest Hackage released version: 1.1
 
 ======================================================================
+Version 1.2, 2012-10-22
+
+  - Allow both CVC4 and Z3 to be used as the SMT solver.
+  - Adjust SBV dependency to >= 2.9, to get access to CVC4.
+
+======================================================================
 Version 1.1, 2012-10-22
 
   - Add solvers over rationals, in addition to just integers.
