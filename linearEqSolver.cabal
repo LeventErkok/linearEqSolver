@@ -1,5 +1,5 @@
 Name:          linearEqSolver
-Version:       1.1
+Version:       1.2
 Category:      Math, SMT
 Synopsis:      Use SMT solvers to solve linear systems over integers and rationals
 Description:   Solve linear systems of equations over integers and rationals, using an SMT solver.
