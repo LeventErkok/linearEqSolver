@@ -1,6 +1,6 @@
 linearEqSolver: Solves linear systems of equations, using SMT solving.
 
-Copyright (c) 2012, Levent Erkok (erkokl@gmail.com)
+Copyright (c) 2012-2013, Levent Erkok (erkokl@gmail.com)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

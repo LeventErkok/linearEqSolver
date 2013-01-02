@@ -16,7 +16,7 @@ Description:   Solve linear systems of equations over integers and rationals, us
                .
                Release notes can be seen at: <http://github.com/LeventErkok/linearEqSolver/blob/master/RELEASENOTES>.
 
-Copyright:     Levent Erkok, 2012
+Copyright:     Levent Erkok, 2012-2013
 License:       BSD3
 License-file:  LICENSE
 Stability:     Experimental
