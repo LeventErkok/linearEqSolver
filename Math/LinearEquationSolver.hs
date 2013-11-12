@@ -133,7 +133,7 @@ solveRationalLinearEqs (Solver cfg) coeffs res = (fmap from . extractModel) `fma
 -- In this case, the system has infinitely many solutions. We can compute three of them as follows:
 --
 -- >>> take 3 `fmap` solveRationalLinearEqsAll z3 [[2.4, 3.6]] [12]
--- [[5 % 1,0 % 1],[0 % 1,10 % 3],[3 % 2,7 % 3]]
+-- [[0 % 1,10 % 3],[(-3) % 2,13 % 3],[(-3) % 4,23 % 6]]
 solveRationalLinearEqsAll :: Solver             -- ^ SMT Solver to use, pass one of 'z3' or 'cvc4'
                           -> [[Rational]]       -- ^ Coefficient matrix (A)
                           -> [Rational]         -- ^ Result vector (b)
