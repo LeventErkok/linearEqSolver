@@ -4,12 +4,6 @@ Category:      Math, SMT
 Synopsis:      Use SMT solvers to solve linear systems over integers and rationals
 Description:   Solve linear systems of equations over integers and rationals, using an SMT solver.
                .
-               Currently, the following SMT solvers are supported:
-               .
-                  * Z3 from Microsoft (<http://z3.codeplex.com/>).
-               .
-                  * CVC4 from New York University and the University of Iowa (<http://cvc4.cs.nyu.edu>) 
-
                linearEqSolver is hosted at GitHub: <http://github.com/LeventErkok/linearEqSolver>. Comments,
                bug reports, and patches are always welcome.
                .
