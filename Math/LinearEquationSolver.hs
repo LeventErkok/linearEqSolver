@@ -58,7 +58,7 @@ solveIntegerLinearEqs :: Solver                -- ^ SMT Solver to use
                       -> [[Integer]]           -- ^ Coefficient matrix (A)
                       -> [Integer]             -- ^ Result vector (b)
                       -> IO (Maybe [Integer])  -- ^ A solution to @Ax = b@, if any
-solveIntegerLinearEqs cfg coeffs res = extractModel `fmap` satWith (getSolver cfg) cs
+solveIntegerLinearEqs cfg coeffs res = extractModel `fmap` satWith (defaultSolverConfig cfg) cs
   where cs = buildConstraints "solveIntegerLinearEqs" coeffs res
 
 -- | Similar to `solveIntegerLinearEqs`, except returns all possible solutions.
@@ -83,7 +83,7 @@ solveIntegerLinearEqsAll :: Solver          -- ^ SMT Solver to use
                          -> [[Integer]]     -- ^ Coefficient matrix (A)
                          -> [Integer]       -- ^ Result vector (b)
                          -> IO [[Integer]]  -- ^ All solutions to @Ax = b@
-solveIntegerLinearEqsAll cfg coeffs res = extractModels `fmap` allSatWith (getSolver cfg) cs
+solveIntegerLinearEqsAll cfg coeffs res = extractModels `fmap` allSatWith (defaultSolverConfig cfg) cs
   where cs = buildConstraints "solveIntegerLinearEqsAll" coeffs res
 
 -- | Solve a system of linear equations over rationals. Same as the integer
@@ -103,7 +103,7 @@ solveRationalLinearEqs :: Solver                  -- ^ SMT Solver to use
                        -> [[Rational]]            -- ^ Coefficient matrix (A)
                        -> [Rational]              -- ^ Result vector (b)
                        -> IO (Maybe [Rational])   -- ^ A solution to @Ax = b@, if any
-solveRationalLinearEqs cfg coeffs res = (fmap from . extractModel) `fmap` satWith (getSolver cfg) cs
+solveRationalLinearEqs cfg coeffs res = (fmap from . extractModel) `fmap` satWith (defaultSolverConfig cfg) cs
   where to   = map (fromRational :: Rational -> AlgReal)
         from = map (toRational   :: AlgReal -> Rational)
         cs   = buildConstraints "solveRationalLinearEqs" (map to coeffs) (to res)
@@ -125,7 +125,7 @@ solveRationalLinearEqsAll :: Solver             -- ^ SMT Solver to use
                           -> [[Rational]]       -- ^ Coefficient matrix (A)
                           -> [Rational]         -- ^ Result vector (b)
                           -> IO [[Rational]]    -- ^ All solutions to @Ax = b@
-solveRationalLinearEqsAll cfg coeffs res = (map from . extractModels) `fmap` allSatWith (getSolver cfg) cs
+solveRationalLinearEqsAll cfg coeffs res = (map from . extractModels) `fmap` allSatWith (defaultSolverConfig cfg) cs
   where to   = map (fromRational :: Rational -> AlgReal)
         from = map (toRational   :: AlgReal -> Rational)
         cs   = buildConstraints "solveRationalLinearEqsAll" (map to coeffs) (to res)
@@ -141,14 +141,6 @@ buildConstraints f coeffs res
        solve $ zipWith rowEq (map (map literal) coeffs) (map literal res)
  where m    = length coeffs
        n:ns = map length coeffs
-
--- | Determine the solver config.
-getSolver :: Solver -> SMTConfig
-getSolver Z3        = z3
-getSolver Yices     = yices
-getSolver Boolector = boolector
-getSolver CVC4      = cvc4
-getSolver MathSAT   = mathSAT
 
 {- $solverInfo
 Note that while we allow all SMT-solvers supported by SBV to be used, not all will work. In particular,
