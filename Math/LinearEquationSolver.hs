@@ -15,6 +15,7 @@
 
 module Math.LinearEquationSolver (
        -- * Available SMT solvers
+       -- $solverInfo
        Solver(..)
        -- * Solutions over Integers
     ,  solveIntegerLinearEqs
@@ -148,3 +149,10 @@ getSolver Yices     = yices
 getSolver Boolector = boolector
 getSolver CVC4      = cvc4
 getSolver MathSAT   = mathSAT
+
+{- $solverInfo
+Note that while we allow all SMT-solvers supported by SBV to be used, not all will work. In particular,
+the backend solver will need to understand unbounded integers and rationals. Currently, the following
+solvers provide the required capability: 'Z3', 'CVC4', and 'MathSAT'. Passing other instances will result
+in an "unsupported" error, though this can of course change as the SBV package itself evolves.
+-}
