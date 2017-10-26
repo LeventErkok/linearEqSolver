@@ -1,11 +1,14 @@
 * Hackage: <http://hackage.haskell.org/package/linearEqSolver>
 * GitHub:  <http://github.com/LeventErkok/linearEqSolver>
 
-* Latest Hackage released version: 1.3
+* Latest Hackage released version: 2.0
 
-### Version 1.4, Not yet released
+### Version 2.0, 2017-10-25
 
-  * Use defaultSMTConfig exported from SBV >= 3.2
+  * Use defaultSMTConfig exported from SBV
+  * All-solution variants now take the max-number of solutions requested,
+    following the corresponding changes in SBV itself. Thanks to Mitchell Rosen
+    for reporting.
 
 ### Version 1.3, 2014-08-27
 
