@@ -61,14 +61,15 @@ solveIntegerLinearEqs :: Solver                -- ^ SMT Solver to use
 solveIntegerLinearEqs cfg coeffs res = extractModel `fmap` satWith (defaultSolverConfig cfg) cs
   where cs = buildConstraints "solveIntegerLinearEqs" coeffs res
 
--- | Similar to `solveIntegerLinearEqs`, except returns all possible solutions.
--- Note that there might be an infinite number of solutions if the system
--- is underspecified, in which case the result will be a lazy list of solutions
--- that the caller can consume as much as needed.
+-- | Similar to `solveIntegerLinearEqs`, except in case the system has an infinite
+-- number of solutions, then it will return the number of solutions requested. (Note
+-- that if the system is underspecified, then there are an infinite number of
+-- solutions.) So, the result can be empty, a singleton, or precisely the number requested, last of
+-- which indicates there are an infinite number of solutions.
 --
 -- Here's an example call, where we underspecify the system and hence there are
--- multiple (in this case an infinite number of) solutions. Here, we only take the first 3 elements,
--- for testing purposes, but all such results can be computed lazily. Our system is:
+-- multiple (in this case an infinite number of) solutions. Here, we ask for the first
+-- 3 elements for testing purposes.
 --
 -- @
 --     2x + 3y + 4z = 20
@@ -77,14 +78,18 @@ solveIntegerLinearEqs cfg coeffs res = extractModel `fmap` satWith (defaultSolve
 --
 -- We have:
 --
--- >>> take 3 `fmap` solveIntegerLinearEqsAll Z3 [[2, 3, 4],[6, -3, 9]] [20, -6]
--- [[5,6,-2],[-8,4,6],[18,8,-10]]
+-- >>> solveIntegerLinearEqsAll Z3 3 [[2, 3, 4],[6, -3, 9]] [20, -6]
+-- [[-8,4,6],[-21,2,14],[-34,0,22]]
+--
+-- The solutions you get might differ, depending on what the solver returns. (Though they'll be correct!)
 solveIntegerLinearEqsAll :: Solver          -- ^ SMT Solver to use
+                          -> Int                -- ^ Maximum number of solutions to return, in case infinite
                          -> [[Integer]]     -- ^ Coefficient matrix (A)
                          -> [Integer]       -- ^ Result vector (b)
                          -> IO [[Integer]]  -- ^ All solutions to @Ax = b@
-solveIntegerLinearEqsAll cfg coeffs res = extractModels `fmap` allSatWith (defaultSolverConfig cfg) cs
+solveIntegerLinearEqsAll s maxNo coeffs res = extractModels `fmap` allSatWith cfg cs
   where cs = buildConstraints "solveIntegerLinearEqsAll" coeffs res
+        cfg = (defaultSolverConfig s) {allSatMaxModelCount = Just maxNo}
 
 -- | Solve a system of linear equations over rationals. Same as the integer
 -- version `solveIntegerLinearEqs`, except it takes rational coefficients
@@ -109,7 +114,7 @@ solveRationalLinearEqs cfg coeffs res = (fmap from . extractModel) `fmap` satWit
         cs   = buildConstraints "solveRationalLinearEqs" (map to coeffs) (to res)
 
 -- | Solve a system of linear equations over rationals.  Similar to `solveRationalLinearEqs`,
--- except it returns all solutions lazily.
+-- except if the system is underspecified, then returns the number of solutions requested.
 --
 -- Example system:
 --
@@ -119,16 +124,20 @@ solveRationalLinearEqs cfg coeffs res = (fmap from . extractModel) `fmap` satWit
 --
 -- In this case, the system has infinitely many solutions. We can compute three of them as follows:
 --
--- >>> take 3 `fmap` solveRationalLinearEqsAll Z3 [[2.4, 3.6]] [12]
--- [[0 % 1,10 % 3],[(-3) % 2,13 % 3],[(-3) % 4,23 % 6]]
+-- >>> solveRationalLinearEqsAll Z3 3 [[2.4, 3.6]] [12]
+-- [[5 % 1,0 % 1],[13 % 2,(-1) % 1],[8 % 1,(-2) % 1]]
+--
+-- The solutions you get might differ, depending on what the solver returns. (Though they'll be correct!)
 solveRationalLinearEqsAll :: Solver             -- ^ SMT Solver to use
+                          -> Int                -- ^ Maximum number of solutions to return, in case infinite
                           -> [[Rational]]       -- ^ Coefficient matrix (A)
                           -> [Rational]         -- ^ Result vector (b)
                           -> IO [[Rational]]    -- ^ All solutions to @Ax = b@
-solveRationalLinearEqsAll cfg coeffs res = (map from . extractModels) `fmap` allSatWith (defaultSolverConfig cfg) cs
+solveRationalLinearEqsAll s maxNo coeffs res = (map from . extractModels) `fmap` allSatWith cfg cs
   where to   = map (fromRational :: Rational -> AlgReal)
         from = map (toRational   :: AlgReal -> Rational)
         cs   = buildConstraints "solveRationalLinearEqsAll" (map to coeffs) (to res)
+        cfg  = (defaultSolverConfig s) {allSatMaxModelCount = Just maxNo}
 
 -- | Build the constraints as given by the coefficient matrix and the resulting vector
 buildConstraints :: (Num a, SymWord a) => String -> [[a]] -> [a] -> Symbolic SBool
