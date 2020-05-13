@@ -1,9 +1,8 @@
 ## linearEqSolver
 
 Solve systems of linear equations, using SMT solvers. Both integer only solutions and solutions
-over rationals are supported. Either single solutions, or all solutions can be computed.
-
-The hackage site http://hackage.haskell.org/package/linearEqSolver is the best place for details on the API and the example use cases.
+over rationals are supported. Either single solutions, or all solutions can be computed. See the inline
+comments in the haddock documentation for example use cases.
 
 ### Build Status
 
