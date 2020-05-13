@@ -20,7 +20,7 @@ Bug-reports:   http://github.com/LeventErkok/linearEqSolver/issues
 Maintainer:    Levent Erkok (erkokl@gmail.com)
 Build-Type:    Simple
 Cabal-Version: 1.14
-Extra-Source-Files: INSTALL, README, COPYRIGHT, CHANGES.md
+Extra-Source-Files: INSTALL, README.md, COPYRIGHT, CHANGES.md
 
 source-repository head
     type:       git

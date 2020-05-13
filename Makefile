@@ -33,7 +33,7 @@ veryclean: clean
 	@-ghc-pkg unregister linearEqSolver
 
 clean:
-	@rm -rf dist
+	@rm -rf dist dist-newstyle
 
 docs:
 	@(set -o pipefail; $(CABAL) new-haddock --haddock-option=--no-warnings 2>&1)
