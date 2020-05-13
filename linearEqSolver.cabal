@@ -1,5 +1,5 @@
 Name:          linearEqSolver
-Version:       2.0
+Version:       2.1
 Category:      Math, SMT
 Synopsis:      Use SMT solvers to solve linear systems over integers and rationals
 Description:   Solve linear systems of equations over integers and rationals, using an SMT solver.
@@ -19,7 +19,7 @@ Homepage:      http://github.com/LeventErkok/linearEqSolver
 Bug-reports:   http://github.com/LeventErkok/linearEqSolver/issues
 Maintainer:    Levent Erkok (erkokl@gmail.com)
 Build-Type:    Simple
-Cabal-Version: >= 1.14
+Cabal-Version: 1.14
 Extra-Source-Files: INSTALL, README, COPYRIGHT, CHANGES.md
 
 source-repository head
@@ -29,6 +29,5 @@ source-repository head
 Library
   default-language: Haskell2010
   ghc-options     : -Wall
-  Build-Depends   : base >= 4.9 && < 5
-                  , sbv >= 7.3
+  Build-Depends   : base >= 4.9 && < 5, sbv
   Exposed-modules : Math.LinearEquationSolver

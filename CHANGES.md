@@ -1,7 +1,11 @@
 * Hackage: <http://hackage.haskell.org/package/linearEqSolver>
 * GitHub:  <http://github.com/LeventErkok/linearEqSolver>
 
-* Latest Hackage released version: 2.0
+* Latest Hackage released version: 2.1
+
+### Version 2.1, 2019-5-13
+  * Update to compile with more recent versions of SBV. Thanks to
+    Colin McKibben for reporting the breakage.
 
 ### Version 2.0, 2017-10-25
 
@@ -12,10 +16,8 @@
 
 ### Version 1.3, 2014-08-27
 
-  * Use the Solver type from SBV directly for picking the solver,
-    avoiding bit-rot.
-  * Adjust SBV dependency to >= 3.1, to get proper access to
-    Solver type
+  * Use the Solver type from SBV directly for picking the solver, avoiding bit-rot.
+  * Adjust SBV dependency to >= 3.1, to get proper access to Solver type
 
 ### Version 1.2, 2013-01-02
 

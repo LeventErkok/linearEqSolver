@@ -79,7 +79,7 @@ solveIntegerLinearEqs cfg coeffs res = extractModel `fmap` satWith (defaultSolve
 -- We have:
 --
 -- >>> solveIntegerLinearEqsAll Z3 3 [[2, 3, 4],[6, -3, 9]] [20, -6]
--- [[-8,4,6],[-21,2,14],[-34,0,22]]
+-- [[-47,-2,30],[-34,0,22],[-21,2,14]]
 --
 -- The solutions you get might differ, depending on what the solver returns. (Though they'll be correct!)
 solveIntegerLinearEqsAll :: Solver          -- ^ SMT Solver to use
@@ -125,7 +125,7 @@ solveRationalLinearEqs cfg coeffs res = (fmap from . extractModel) `fmap` satWit
 -- In this case, the system has infinitely many solutions. We can compute three of them as follows:
 --
 -- >>> solveRationalLinearEqsAll Z3 3 [[2.4, 3.6]] [12]
--- [[5 % 1,0 % 1],[13 % 2,(-1) % 1],[8 % 1,(-2) % 1]]
+-- [[0 % 1,10 % 3],[3 % 4,17 % 6],[3 % 2,7 % 3]]
 --
 -- The solutions you get might differ, depending on what the solver returns. (Though they'll be correct!)
 solveRationalLinearEqsAll :: Solver             -- ^ SMT Solver to use
@@ -140,7 +140,7 @@ solveRationalLinearEqsAll s maxNo coeffs res = (map from . extractModels) `fmap`
         cfg  = (defaultSolverConfig s) {allSatMaxModelCount = Just maxNo}
 
 -- | Build the constraints as given by the coefficient matrix and the resulting vector
-buildConstraints :: (Num a, SymWord a) => String -> [[a]] -> [a] -> Symbolic SBool
+buildConstraints :: (Ord a, Num a, SymVal a) => String -> [[a]] -> [a] -> Symbolic SBool
 buildConstraints f coeffs res
   | m == 0 || any (/= n) ns || m /= length res
   = error $ f ++ ": received ill-formed input."

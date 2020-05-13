@@ -3,7 +3,7 @@
 # The linearEqSolver library is distributed with the BSD3 license. See the LICENSE file
 # in the distribution for details.
 SHELL     := /usr/bin/env bash
-TSTSRCS   = $(shell find . -name '*.hs' -or -name '*.lhs')
+TSTSRCS   = $(shell find . -name '*.hs' -or -name '*.lhs' | grep -v Setup.hs)
 DEPSRCS   = $(shell find . -name '*.hs' -or -name '*.lhs' -or -name '*.cabal' | grep -v Paths_linearEqSolver.hs)
 CABAL     = cabal
 TIME      = /usr/bin/time
@@ -19,10 +19,9 @@ all: install
 install: $(DEPSRCS) Makefile
 	@-ghc-pkg unregister linearEqSolver
 	$(call mkTags)
-	@$(CABAL) configure --disable-library-profiling
-	@(set -o pipefail; $(CABAL) build --ghc-options=-Werror 2>&1)
-	@$(CABAL) copy
-	@$(CABAL) register
+	@$(CABAL) new-configure --disable-library-profiling
+	@$(CABAL) new-build --ghc-options=-Wall
+	@$(CABAL) new-install
 
 test: install
 	@echo "*** Starting inline tests.."
@@ -37,14 +36,14 @@ clean:
 	@rm -rf dist
 
 docs:
-	@(set -o pipefail; $(CABAL) haddock --haddock-option=--no-warnings --hyperlink-source 2>&1)
+	@(set -o pipefail; $(CABAL) new-haddock --haddock-option=--no-warnings 2>&1)
 
 release: clean install sdist hlint test docs
 	@echo "*** LinearEqSolver is ready for release!"
 
 hlint: install
 	@echo "Running HLint.."
-	@hlint Math -q -rhlintReport.html -i "Use otherwise" -i "Parse error"
+	@hlint Math -i "Use otherwise" -i "Parse error"
 
 tags:
 	$(call mkTags)
