@@ -27,7 +27,7 @@ test: install
 	@echo "*** Starting inline tests.."
 	@(set -o pipefail; $(TIME) doctest ${TSTSRCS} 2>&1)
 sdist: install
-	@(set -o pipefail; $(CABAL) sdist)
+	@(set -o pipefail; $(CABAL) new-sdist)
 
 veryclean: clean
 	@-ghc-pkg unregister linearEqSolver
