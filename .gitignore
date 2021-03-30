@@ -7,6 +7,6 @@ cabal-dev
 .*~
 tags
 TAGS
-cabal.project.local
+cabal.project.local*
 dist-newstyle/
 .ghc.environment.*

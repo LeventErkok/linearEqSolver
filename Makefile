@@ -17,20 +17,17 @@ endef
 all: install
 
 install: $(DEPSRCS) Makefile
-	@-ghc-pkg unregister linearEqSolver
 	$(call mkTags)
-	@$(CABAL) new-configure --disable-library-profiling
-	@$(CABAL) new-build --ghc-options=-Wall
-	@$(CABAL) new-install
+	@$(CABAL) new-install --lib
 
 test: install
 	@echo "*** Starting inline tests.."
 	@(set -o pipefail; $(TIME) doctest ${TSTSRCS} 2>&1)
+
 sdist: install
 	@(set -o pipefail; $(CABAL) new-sdist)
 
 veryclean: clean
-	@-ghc-pkg unregister linearEqSolver
 
 clean:
 	@rm -rf dist dist-newstyle
