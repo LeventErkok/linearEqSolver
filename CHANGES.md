@@ -1,9 +1,13 @@
 * Hackage: <http://hackage.haskell.org/package/linearEqSolver>
 * GitHub:  <http://github.com/LeventErkok/linearEqSolver>
 
-* Latest Hackage released version: 2.1
+* Latest Hackage released version: 2.4
 
-### Version 2.1, 2019-5-13
+### Version 2.4, 2024-12-24
+  * Update to compile with more recent versions of GHC. Thanks to
+    Kevin Tew for reporting the breakage.
+
+### Version 2.1-2.3, 2019-5-13
   * Update to compile with more recent versions of SBV. Thanks to
     Colin McKibben for reporting the breakage.
 
