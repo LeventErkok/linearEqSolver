@@ -18,11 +18,11 @@ all: install
 
 install: $(DEPSRCS) Makefile
 	$(call mkTags)
-	@$(CABAL) new-install --lib
+	@$(CABAL) new-install --lib --force-reinstall
 
 test: install
 	@echo "*** Starting inline tests.."
-	@(set -o pipefail; $(TIME) doctest ${TSTSRCS} 2>&1)
+	@(set -o pipefail; $(TIME) doctest -package sbv -package base ${TSTSRCS} 2>&1)
 
 sdist: install
 	@(set -o pipefail; $(CABAL) new-sdist)
